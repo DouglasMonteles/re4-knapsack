@@ -1,0 +1,9 @@
+.bg-mercant {
+  position: absolute;
+  margin-top: 0;
+  margin-left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: .7;
+  z-index: -1;
+}
