@@ -4,7 +4,7 @@ import { items as data } from "../../utils/data";
 
 export function InventoryPage() {
   const [matrix, setMatrix] = useState<any[]>([]);
-  const [items] = useState<Item[]>([data[4]]);
+  const [items] = useState<Item[]>([data[4], data[6], data[2]]);
 
   useEffect(() => {
     setMatrix([]);
@@ -38,11 +38,14 @@ export function InventoryPage() {
     console.log('height:' + totHeight)
     console.log('tot:' + totArea)
 
-    // if (matrixAux[i][j] === 0) {
-    //   console.log(i, j)
-    //   for (let w = 0; w < item.area.width; w++) {
-    //     for (let h = 0; h < item.area.height; h++) {
-    //       matrixAux[w][h] = index+1;
+    // for (let i = 0; i < rows; i++) {
+    //   for (let j = 0; j < columns; j++) {
+    //     if (matrixAux[i][j] === 0) {
+    //       for (let w = 0+2; w < item.area.width+2; w++) {
+    //         for (let h = 0+2; h < item.area.height+2; h++) {
+    //           matrixAux[w][h] = 3;
+    //         }
+    //       }
     //     }
     //   }
     // }
@@ -51,11 +54,41 @@ export function InventoryPage() {
     matrixAux[1][1] = 1;
 
     items.forEach((item, index) => {
-      let getIndexI = 0;
-      let getIndexJ = 0;
-      let isOk = true;
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          if (matrixAux[i][j] === 0) {
+            let isAllZero = true;
+            let addW = 0;
+            let addH = 0;
+            let m = [];
 
-      
+            l: for (let w = 0+addW; w < item.area.width+addW; w++) {
+              for (let h = 0+addH; h < item.area.height+addH; h++) {
+                if (w < 10 && matrixAux[w][h] !== 0) {
+                  isAllZero = false;
+                  addW++;
+                  m = [];
+                  continue l;
+                } else if (matrixAux[h][w] !== 0) {
+                  addH++;
+                  m = [];
+                  continue l;
+                } else {
+                  m.push({w,h});
+                }
+              }
+            }
+
+            console.log(m)
+            //m.forEach((p: any) => matrixAux[p.w][p.h] = 1);
+            for (let x = 0; x < m.length; x++) {
+              if (m[x].w < 7 && m[x].h < 11) {
+                matrixAux[m[x].w][m[x].h] = index + 1;
+              }
+            }
+          }
+        }
+      }
     });
 
     setMatrix(matrixAux);
