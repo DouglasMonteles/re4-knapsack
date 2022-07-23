@@ -55,20 +55,7 @@ export function InventoryPage() {
       let getIndexJ = 0;
       let isOk = true;
 
-      for (let i = 0; i < rows; i++) {
-        for (let j = 0; i < columns; j++) {
-          getIndexI = i;
-          getIndexJ = j;
-
-          for (let w = 0; w < item.area.width; w++) {
-            for (let h = 0; h < item.area.height; h++) {
-              if (matrixAux[i][j] === 0) {
-                console.log(i, j);
-              } 
-            }
-          }
-        } 
-      }
+      
     });
 
     setMatrix(matrixAux);
