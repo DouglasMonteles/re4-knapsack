@@ -5,11 +5,12 @@ import { Item } from "../../models/item.model";
 import { items as data } from "../../utils/data";
 
 import merchantImage from '../../assets/img/merchant.jpg';
+import introImage from '../../assets/img/intro.jpg';
 
 import welcomeAudio from '../../assets/audio/welcome.mp3';
 import whatYouBuyingAudio from '../../assets/audio/what-you-buying.mp3';
 import thankYouAudio from '../../assets/audio/thank-you.mp3';
-import notEnoughCashAudio from '../../assets/audio/no-enough-cash.mp3';
+import introAudio from '../../assets/audio/intro.mp3';
 
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,11 @@ export function HomePage() {
   const [playWelcome] = useSound(welcomeAudio, configAudio);
   const [playThankYou] = useSound(thankYouAudio, configAudio);
   const [playWhatYouBuying] = useSound(whatYouBuyingAudio, configAudio);
-  const [playNotEnoughCash] = useSound(notEnoughCashAudio, configAudio);
+  const [playIntro, configPlayIntro] = useSound(introAudio, configAudio);
+
+  if (!start) {
+    playIntro();
+  }
 
   useEffect(() => {
     const cart = LocalStorageService.getCart();
@@ -47,6 +52,7 @@ export function HomePage() {
 
   function startGame(): void {
     setStart(true);
+    stopSound();
     playWelcome();
   }
 
@@ -96,11 +102,16 @@ export function HomePage() {
     updateComponent();
   }
 
+  function stopSound() {
+    configPlayIntro.stop();
+  }
+
   return (
     <>
       {
         !start ? (
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center relative">
+            <img className="bg-merchant" src={introImage} alt="bg-merchant" />
             <button onClick={startGame} className="rounded-md bg-black active:bg-gray-800 text-white p-4">
               Começar
             </button>

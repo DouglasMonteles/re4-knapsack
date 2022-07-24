@@ -7,7 +7,8 @@ import { KnapsackService } from '../../services/knapsack.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { items as data } from '../../utils/data';
 
-import welcomeAudio from '../../assets/audio/welcome.mp3';
+import mercenariesAudio from '../../assets/audio/mercenaries.mp3';
+import resultImage from '../../assets/img/end.jpg';
 
 import './styles.css';
 
@@ -22,9 +23,9 @@ export function CartPage() {
     interrupt: true,
   }
 
-  const [playWelcome] = useSound(welcomeAudio, configAudio);
+  const [playMercenaries, configMercenaries] = useSound(mercenariesAudio, configAudio);
 
-  playWelcome();
+  playMercenaries();
 
   useEffect(() => {
     const knapItems = items.map(item => ({
@@ -46,10 +47,16 @@ export function CartPage() {
     setResult(knapResult);
   }, []);
 
+  function stopSound(): void {
+    configMercenaries.stop();
+  }
+
   return (
-    <div className="w-full">
-      <div className="mt-4 text-center">
-        <Link to="/">Voltar</Link>
+    <div className="w-full relative h-screen">
+      <img className="bg-merchant" src={resultImage} alt="bg-merchant" />
+
+      <div className="pt-4 text-center">
+        <Link onClick={stopSound} to="/" className="bg-black text-white px-4 py-2 rounded-md">Voltar</Link>
       </div>
 
       <div className="flex justify-between gap-4 w-full p-4">

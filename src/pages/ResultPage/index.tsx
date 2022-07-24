@@ -18,7 +18,6 @@ export function ResultPage() {
   const [items] = useState(data);
   const [cartItems] = useState(LocalStorageService.getCart());
   const [isMatch, setIsMatch] = useState(false);
-  const location = useLocation();
 
   const knapSackService = new KnapsackService();
 
@@ -26,8 +25,19 @@ export function ResultPage() {
     interrupt: true,
   }
 
-  const [playMercenaries] = useSound(mercenariesAudio, configAudio);
-  const [playAshley] = useSound(ashleyAudio, configAudio);
+  const [playMercenaries, configMercenaries] = useSound(mercenariesAudio, configAudio);
+  const [playAshley, configAshley] = useSound(ashleyAudio, configAudio);
+
+  if (isMatch) {
+    playMercenaries();
+  } else {
+    playAshley();
+  }
+
+  function stopSound(): void {
+    configMercenaries.stop();
+    configAshley.stop();
+  }
 
   useEffect(() => {
     const knapItems = items.map(item => ({
@@ -69,17 +79,19 @@ export function ResultPage() {
       <img className="bg-merchant" src={isMatch ? mercenariesImage : ashleyImage} alt="bg-merchant" />
       {
         isMatch ? (
-          <h1 className="font-bold text-2xl text-center">
+          <h1 className="font-bold text-2xl text-center text-white">
             Parabéns forasteiro, <br/> você fez a melhor escolha de itens
           </h1>
         ) : (
-          <h1 className="font-bold text-2xl text-center">
+          <h1 className="font-bold text-2xl text-center text-red-600">
             Você não fez uma boa escolha de itens e <br/> por isso a Ashley foi levada!
           </h1>
         )
       }
 
-      <Link className="mt-24" to="/cart">Ir para detalhes do resultado</Link>
+      <Link onClick={stopSound} className="mt-24 bg-green-600 text-white p-4 rounded-md active:bg-green-800 hover:bg-green-800" to="/cart">
+        Ir para detalhes do resultado
+      </Link>
     </div>
   );
 }
