@@ -1,9 +1,22 @@
-.bg-mercant {
+.bg-merchant {
   position: absolute;
   margin-top: 0;
   margin-left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   opacity: .7;
   z-index: -1;
+}
+
+.disabled {
+  color: #ccc;
+}
+
+.disabled:hover {
+  background-color: none;
+}
+
+button:disabled, button:disabled:active {
+  background-color: rgb(155, 155, 155);
+  opacity: .5;
 }

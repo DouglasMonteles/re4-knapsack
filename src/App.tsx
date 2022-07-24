@@ -1,9 +1,8 @@
-import { HomePage } from "./pages/HomePage";
-import { InventoryPage } from "./pages/InventoryPage";
+import { Routes } from "./routes";
 
 function App() {
   return (
-    <InventoryPage />
+    <Routes />
   );
 }
 

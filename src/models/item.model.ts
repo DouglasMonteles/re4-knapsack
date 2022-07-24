@@ -1,4 +1,5 @@
 export interface Item {
+  id: number;
   name: string;
   price: number;
   area: {
@@ -6,4 +7,9 @@ export interface Item {
     height: number;
   };
   image: string;
+}
+
+export interface CartItem {
+  item: Item;
+  quantity: number;
 }

@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
-import { Item } from "../../model/item.model";
+import { Item } from "../../models/item.model";
+import { KnapsackService } from "../../services/knapsack.service";
 import { items as data } from "../../utils/data";
 
 export function InventoryPage() {
   const [matrix, setMatrix] = useState<any[]>([]);
-  const [items] = useState<Item[]>([data[4], data[6], data[2]]);
+  const [items] = useState<Item[]>([data[4]]);
+
+  const knapSackService = new KnapsackService();
+
+  useEffect(() => {
+    const values = items.map(item => item.price);
+    const weights = items.map(item => item.area.width * item.area.height);
+    const n = items.length;
+    const target = 10;
+    const lookpup = new Map<any, any>();
+
+    //console.log(knapSackService.knapSack(values, weights, n-1, target));
+    console.log(lookpup);
+  }, []);
 
   useEffect(() => {
     setMatrix([]);
@@ -51,42 +65,39 @@ export function InventoryPage() {
     // }
 
     matrixAux[0][0] = 1;
-    matrixAux[1][1] = 1;
+    matrixAux[0][1] = 1;
 
     items.forEach((item, index) => {
+      const m = [];
+      let freeMatrix: Array<{i: number, j:number}> = [];
+
       for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
           if (matrixAux[i][j] === 0) {
-            let isAllZero = true;
-            let addW = 0;
-            let addH = 0;
-            let m = [];
-
-            l: for (let w = 0+addW; w < item.area.width+addW; w++) {
-              for (let h = 0+addH; h < item.area.height+addH; h++) {
-                if (w < 10 && matrixAux[w][h] !== 0) {
-                  isAllZero = false;
-                  addW++;
-                  m = [];
-                  continue l;
-                } else if (matrixAux[h][w] !== 0) {
-                  addH++;
-                  m = [];
-                  continue l;
-                } else {
-                  m.push({w,h});
-                }
-              }
-            }
-
-            console.log(m)
-            //m.forEach((p: any) => matrixAux[p.w][p.h] = 1);
-            for (let x = 0; x < m.length; x++) {
-              if (m[x].w < 7 && m[x].h < 11) {
-                matrixAux[m[x].w][m[x].h] = index + 1;
-              }
-            }
+            freeMatrix.push({i, j});
           }
+        }
+      }
+
+      console.log(freeMatrix);
+
+      for (let w = 0; w < item.area.width; w++) {
+        for (let h = 0; h < item.area.height; h++) {
+          m.push({w, h});
+        }
+      }
+
+      console.log(m);
+
+      let add = 0;
+
+      l: for (let i = 0+add; i < item.area.width+add; i++) {
+        for (let j = i; j < item.area.height; j++) {
+          if (matrixAux[i][j] !== 0) {
+            add++;
+            continue l;
+          }
+          console.log("i, j = ", i, j)
         }
       }
     });
