@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import useSound from 'use-sound';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CartItem } from '../../models/item.model';
 import { KnapsackService } from '../../services/knapsack.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { items as data } from '../../utils/data';
+import { capacity, items as data } from '../../utils/data';
 
 import mercenariesImage from '../../assets/img/mercenaries.jpg';
 import ashleyImage from '../../assets/img/ashley.jpg';
@@ -45,8 +45,6 @@ export function ResultPage() {
       w: item.area.width * item.area.height,
       v: item.price,
     }));
-
-    const capacity = 2 * 4;
 
     const result = knapSackService.knapSack(knapItems, capacity);
 

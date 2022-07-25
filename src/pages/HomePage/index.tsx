@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { LocalStorageService } from "../../services/local-storage.service";
 import useSound from 'use-sound';
 
 import { Item } from "../../models/item.model";
@@ -13,11 +15,9 @@ import thankYouAudio from '../../assets/audio/thank-you.mp3';
 import introAudio from '../../assets/audio/intro.mp3';
 
 import "./styles.css";
-import { useNavigate } from "react-router-dom";
-import { LocalStorageService } from "../../services/local-storage.service";
 
 export function HomePage() {
-  const [items, setItems] = useState(data);
+  const [items] = useState(data);
   const [selectedItem, setSelectedItem] = useState(items[0]);
   const [start, setStart] = useState(false);
   const [amountPtas, setAmountPtas] = useState(0);
@@ -90,7 +90,7 @@ export function HomePage() {
   }
 
   const useForceUpdate = () => {
-    const [ignored, newState] = useState();
+    const [_, newState] = useState();
     return useCallback(() => newState({} as any), []);
   }
 

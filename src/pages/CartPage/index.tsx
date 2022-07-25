@@ -5,7 +5,7 @@ import { ItemTable } from '../../components/ItemTable';
 import { CartItem } from '../../models/item.model';
 import { KnapsackService } from '../../services/knapsack.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { items as data } from '../../utils/data';
+import { capacity, items as data } from '../../utils/data';
 
 import mercenariesAudio from '../../assets/audio/mercenaries.mp3';
 import resultImage from '../../assets/img/end.jpg';
@@ -33,8 +33,6 @@ export function CartPage() {
       w: item.area.width * item.area.height,
       v: item.price,
     }));
-
-    const capacity = 2 * 4;
 
     const result = knapSackService.knapSack(knapItems, capacity);
     

@@ -1,6 +1,7 @@
 import { Item } from "../models/item.model";
 
-// maleta pequena: 11x7
+// maleta pequena: 8x8
+const capacity = 8 * 8; 
 
 const items: Item[] = [
   {
@@ -117,4 +118,7 @@ const items: Item[] = [
   },
 ];
 
-export { items };
+export {
+  capacity, 
+  items,
+};
